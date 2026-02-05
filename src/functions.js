@@ -1,7 +1,6 @@
 import { PAGE_TIMELINE, PAGE_ACTIVITIES, PAGE_PROGRESS, HOURS_IN_DAY  } from './constants'
 export function normalizePageHash() {
   const hash = window.location.hash.slice(1)
-  console.log(hash)
   if([PAGE_TIMELINE, PAGE_ACTIVITIES, PAGE_PROGRESS].includes(hash)) {
     return hash
   }
