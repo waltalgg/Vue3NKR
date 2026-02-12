@@ -7,7 +7,11 @@ import {
   validateActivities,
   validateSelectOptions,
 } from '@/validators.js'
-import { NULLABLE_ACTIVITY } from '@/constants.js'
+import {
+  NULLABLE_ACTIVITY,
+} from '@/constants.js'
+import TimelineStopwatch from '@/components/TimelineStopwatch.vue'
+
 
 const props = defineProps({
   timelineItem: {
@@ -28,7 +32,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits({
-  selectActivity: isActivityValid
+  selectActivity: isActivityValid,
 })
 function findActivityById(id) {
   return props.activities.find((activity) => activity.id === id) || NULLABLE_ACTIVITY
@@ -36,8 +40,6 @@ function findActivityById(id) {
 function selectActivity(id) {
   emit('selectActivity', findActivityById(id))
 }
-
-
 </script>
 
 <template>
@@ -48,6 +50,9 @@ function selectActivity(id) {
       :selected="timelineItem.activityId"
       :options="activitySelectOptions"
       @select="selectActivity"
+    />
+    <TimelineStopwatch
+      :seconds="timelineItem.activitySeconds"
     />
   </li>
 </template>
