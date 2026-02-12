@@ -33,8 +33,12 @@ function deleteActivity(activity) {
   activities.value.splice(activities.value.indexOf(activity), 1)
 }
 
-function setTimelineActivity({timelineItem, activity}) {
-  timelineItem.activityId = activity?.id || null
+function setTimelineActivity(timelineItem, activity) {
+  timelineItem.activityId = activity.id
+}
+
+function setActivitySecondsToComplete(activity, secondsToComplete) {
+  activity.secondsToComplete = secondsToComplete
 }
 </script>
 
@@ -53,6 +57,7 @@ function setTimelineActivity({timelineItem, activity}) {
       :activities="activities"
       @create-activity="createActivity"
       @delete-activity="deleteActivity"
+      @set-activity-seconds-to-complete="setActivitySecondsToComplete"
     />
     <TheProgress v-show="currentPage === PAGE_PROGRESS" />
   </main>

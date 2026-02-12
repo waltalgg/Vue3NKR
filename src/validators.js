@@ -28,6 +28,10 @@ export function isHourValid(hour) {
 }
 
 export function isActivityValid({ id, name , secondsToComplete }) {
+  if(isNull(id)){
+    return true
+  }
+
   return [
     isNotEmptyString(id),
     isNotEmptyString(name),
@@ -55,6 +59,11 @@ export function isSelectValueValid(value){
   return isNotEmptyString(value) || isNumberOrNull(value)
 }
 
+export function isNumber(value)
+{
+  return typeof value === 'number'
+}
+
 function isNotEmptyString(value){
   return isString(value) && value.length > 0
 }
@@ -65,11 +74,6 @@ function isSelectOptionValid({value, label}) {
 
 function isBetween(value, start, end) {
   return value >= start && value <= end
-}
-
-function isNumber(value)
-{
-  return typeof value === 'number'
 }
 
 function isString(value){
