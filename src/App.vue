@@ -51,6 +51,7 @@ function setActivitySecondsToComplete(activity, secondsToComplete) {
       :timeline-items="timelineItems"
       :activity-select-options="activitySelectOptions"
       :activities="activities"
+      :current-page="currentPage"
       @set-timeline-item-activity="setTimelineActivity"
     />
     <TheActivities

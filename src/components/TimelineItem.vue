@@ -53,6 +53,7 @@ function selectActivity(id) {
     />
     <TimelineStopwatch
       :seconds="timelineItem.activitySeconds"
+      :hour="timelineItem.hour"
     />
   </li>
 </template>
