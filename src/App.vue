@@ -4,7 +4,7 @@ import TheNav from './components/TheNav.vue'
 import TheActivities from '@/pages/TheActivities.vue'
 import TheProgress from '@/pages/TheProgress.vue'
 import TheTimeline from '@/pages/TheTimeline.vue'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { PAGE_TIMELINE, PAGE_ACTIVITIES, PAGE_PROGRESS } from './constants'
 import {
   normalizePageHash,
@@ -14,9 +14,9 @@ import {
 } from './functions'
 
 const currentPage = ref(normalizePageHash())
-const timelineItems = generateTimelineItems()
+const timelineItems = ref(generateTimelineItems())
 const activities = ref(generateActivities())
-const activitySelectOptions = generateActivitySelectOptions(activities.value)
+const activitySelectOptions = computed(() => generateActivitySelectOptions(activities.value))
 function goTo(page) {
   currentPage.value = page
 }
@@ -25,7 +25,16 @@ function createActivity(activity) {
   activities.value.push(activity)
 }
 function deleteActivity(activity) {
+  timelineItems.value.forEach((timelineItem) => {
+    if(timelineItem.activityId === activity.id) {
+      timelineItem.activityId = null
+    }
+  })
   activities.value.splice(activities.value.indexOf(activity), 1)
+}
+
+function setTimelineActivity({timelineItem, activity}) {
+  timelineItem.activityId = activity?.id || null
 }
 </script>
 
@@ -36,6 +45,8 @@ function deleteActivity(activity) {
       v-show="currentPage === PAGE_TIMELINE"
       :timeline-items="timelineItems"
       :activity-select-options="activitySelectOptions"
+      :activities="activities"
+      @set-timeline-item-activity="setTimelineActivity"
     />
     <TheActivities
       v-show="currentPage === PAGE_ACTIVITIES"
