@@ -16,9 +16,10 @@ import {
 const currentPage = ref(normalizePageHash())
 const activities = ref(generateActivities())
 const timelineItems = ref(generateTimelineItems(activities.value))
+const timeline = ref()
+
 const activitySelectOptions = computed(() => generateActivitySelectOptions(activities.value))
 
-const timeline = ref()
 function goTo(page) {
   if (currentPage.value === PAGE_TIMELINE && page === PAGE_TIMELINE) {
     timeline.value.scrollToHour()
@@ -56,6 +57,8 @@ function updateTimelineItemActivitySeconds(timelineItem, activitySeconds) {
 
 provide('updateTimelineItemActivitySeconds', updateTimelineItemActivitySeconds)
 provide('timelineItems', timelineItems.value)
+provide('activities', activities.value)
+provide('activitySelectOptions', activitySelectOptions.value)
 </script>
 
 <template>
@@ -64,8 +67,6 @@ provide('timelineItems', timelineItems.value)
     <TheTimeline
       v-show="currentPage === PAGE_TIMELINE"
       :timeline-items="timelineItems"
-      :activity-select-options="activitySelectOptions"
-      :activities="activities"
       :current-page="currentPage"
       ref="timeline"
       @set-timeline-item-activity="setTimelineActivity"
