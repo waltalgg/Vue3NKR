@@ -3,7 +3,8 @@ import BaseButton from '@/components/BaseButton.vue'
 import BaseSelect from '@/components/BaseSelect.vue'
 import { TrashIcon } from '@heroicons/vue/24/outline/index.js'
 import { BUTTON_TYPE_DANGER, PERIOD_SELECT_OPTIONS } from '@/constants.js'
-import { isActivityValid, isUndefined, isNumber } from '@/validators.js'
+import { isActivityValid, isUndefined, isNumber, validateTimelineItems } from '@/validators.js'
+import ActivitySecondsToComplete from '@/components/ActivitySecondsToComplete.vue'
 
 defineProps({
   activity: {
@@ -11,13 +12,17 @@ defineProps({
     type: Object,
     validator: isActivityValid,
   },
+  timelineItems: {
+    required: true,
+    type: Array,
+    validator: validateTimelineItems,
+  },
 })
 
 const emit = defineEmits({
   delete: isUndefined,
   setSecondsToComplete: isNumber,
 })
-
 </script>
 
 <template>
@@ -28,13 +33,18 @@ const emit = defineEmits({
       </BaseButton>
       <span class="truncate text-xl">{{ activity.name }}</span>
     </div>
-    <div>
+    <div class="flex gap-2">
       <BaseSelect
-        class="font-mono"
+        class="font-mono grow"
         placeholder="hh:mm"
         :options="PERIOD_SELECT_OPTIONS"
         :selected="activity.secondsToComplete || null"
         @select="emit('setSecondsToComplete', $event || 0)"
+      />
+      <ActivitySecondsToComplete
+        v-if="activity.secondsToComplete"
+        :activity="activity"
+        :timeline-items="timelineItems"
       />
     </div>
   </li>
