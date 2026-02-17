@@ -4,7 +4,7 @@ import TheNav from './components/TheNav.vue'
 import TheActivities from '@/pages/TheActivities.vue'
 import TheProgress from '@/pages/TheProgress.vue'
 import TheTimeline from '@/pages/TheTimeline.vue'
-import { computed, ref } from 'vue'
+import { computed, provide, ref } from 'vue'
 import { PAGE_TIMELINE, PAGE_ACTIVITIES, PAGE_PROGRESS } from './constants'
 import {
   normalizePageHash,
@@ -20,10 +20,10 @@ const activitySelectOptions = computed(() => generateActivitySelectOptions(activ
 
 const timeline = ref()
 function goTo(page) {
-  if(currentPage.value === PAGE_TIMELINE && page === PAGE_TIMELINE) {
+  if (currentPage.value === PAGE_TIMELINE && page === PAGE_TIMELINE) {
     timeline.value.scrollToHour()
   }
-  if(page !== PAGE_TIMELINE) {
+  if (page !== PAGE_TIMELINE) {
     document.body.scrollIntoView()
   }
   currentPage.value = page
@@ -34,7 +34,7 @@ function createActivity(activity) {
 }
 function deleteActivity(activity) {
   timelineItems.value.forEach((timelineItem) => {
-    if(timelineItem.activityId === activity.id) {
+    if (timelineItem.activityId === activity.id) {
       timelineItem.activityId = null
       timelineItem.activitySeconds = 0
     }
@@ -49,6 +49,13 @@ function setTimelineActivity(timelineItem, activity) {
 function setActivitySecondsToComplete(activity, secondsToComplete) {
   activity.secondsToComplete = secondsToComplete
 }
+
+function updateTimelineItemActivitySeconds(timelineItem, activitySeconds) {
+  timelineItem.activitySeconds += activitySeconds
+}
+
+provide('updateTimelineItemActivitySeconds', updateTimelineItemActivitySeconds)
+provide('timelineItems', timelineItems.value)
 </script>
 
 <template>
@@ -65,7 +72,6 @@ function setActivitySecondsToComplete(activity, secondsToComplete) {
     />
     <TheActivities
       v-show="currentPage === PAGE_ACTIVITIES"
-      :timeline-items="timelineItems"
       :activities="activities"
       @create-activity="createActivity"
       @delete-activity="deleteActivity"

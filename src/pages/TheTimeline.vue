@@ -59,7 +59,6 @@ function scrollToHour(hour = null, isSmooth = true) {
   } else {
     timelineItemRefs.value[hour - 2].$el.scrollIntoView(options)
   }
-
 }
 </script>
 

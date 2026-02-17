@@ -4,7 +4,6 @@ import {
   isActivityValid,
   isNumber,
   validateActivities,
-  validateTimelineItems,
 } from '@/validators.js'
 import TheActivityForm from '@/components/TheActivityForm.vue'
 import TheActivitiesEmptyState from '@/components/TheActivitiesEmptyState.vue'
@@ -14,11 +13,6 @@ defineProps({
     required: true,
     type: Array,
     validator: validateActivities,
-  },
-  timelineItems: {
-    required: true,
-    type: Array,
-    validator: validateTimelineItems,
   },
 })
 
@@ -42,7 +36,6 @@ function setSecondsToComplete(activity, secondsToComplete) {
         v-for="activity in activities"
         :key="activity.id"
         :activity="activity"
-        :timeline-items="timelineItems"
         @delete="emit('deleteActivity', activity)"
         @set-seconds-to-complete="setSecondsToComplete(activity, $event)"
       />
