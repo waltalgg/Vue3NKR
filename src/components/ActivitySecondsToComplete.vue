@@ -2,8 +2,9 @@
 import { formatSeconds, getTotalActivitySeconds } from '@/functions.js'
 import { isActivityValid } from '@/validators.js'
 import { computed, inject } from 'vue'
+import { timelineItemsKey } from '@/keys.js'
 
-const timelineItems = inject('timelineItems')
+const timelineItems = inject(timelineItemsKey)
 
 const props = defineProps({
   activity: {

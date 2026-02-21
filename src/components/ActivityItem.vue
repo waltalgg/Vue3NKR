@@ -6,6 +6,11 @@ import { BUTTON_TYPE_DANGER } from '@/constants.js'
 import { isActivityValid } from '@/validators.js'
 import ActivitySecondsToComplete from '@/components/ActivitySecondsToComplete.vue'
 import { inject } from 'vue'
+import {
+  deleteActivityKey,
+  periodSelectOptionsKey,
+  setActivitySecondsToCompleteKey,
+} from '@/keys.js'
 
 defineProps({
   activity: {
@@ -15,10 +20,9 @@ defineProps({
   },
 })
 
-
-const setActivitySecondsToComplete = inject('setActivitySecondsToComplete')
-const periodSelectOptions = inject('periodSelectOptions')
-const deleteActivity = inject('deleteActivity')
+const setActivitySecondsToComplete = inject(setActivitySecondsToCompleteKey)
+const periodSelectOptions = inject(periodSelectOptionsKey)
+const deleteActivity = inject(deleteActivityKey)
 </script>
 
 <template>
@@ -37,10 +41,7 @@ const deleteActivity = inject('deleteActivity')
         :selected="activity.secondsToComplete || null"
         @select="setActivitySecondsToComplete(activity, $event || 0)"
       />
-      <ActivitySecondsToComplete
-        v-if="activity.secondsToComplete"
-        :activity="activity"
-      />
+      <ActivitySecondsToComplete v-if="activity.secondsToComplete" :activity="activity" />
     </div>
   </li>
 </template>
