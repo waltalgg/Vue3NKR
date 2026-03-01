@@ -2,13 +2,9 @@
 import BaseSelect from '@/components/BaseSelect.vue'
 import TimelineHour from '@/components/TimelineHour.vue'
 import { isTimelineItemValid, isUndefined } from '@/validators.js'
-
 import TimelineStopwatch from '@/components/TimelineStopwatch.vue'
-import { inject } from 'vue'
-import { activitySelectOptionsKey, setTimelineItemActivityKey } from '@/keys.js'
-
-const activitySelectOptions = inject(activitySelectOptionsKey)
-const setTimelineItemActivity = inject(setTimelineItemActivityKey)
+import { activitySelectOptions } from '@/activities.js'
+import { setTimelineItemActivity } from '@/timeline-items.js'
 
 defineProps({
   timelineItem: {
