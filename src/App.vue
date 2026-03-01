@@ -4,68 +4,41 @@ import TheNav from './components/TheNav.vue'
 import TheActivities from '@/pages/TheActivities.vue'
 import TheProgress from '@/pages/TheProgress.vue'
 import TheTimeline from '@/pages/TheTimeline.vue'
-import { computed, provide, readonly, ref } from 'vue'
+import { provide, readonly } from 'vue'
 import { PAGE_TIMELINE, PAGE_ACTIVITIES, PAGE_PROGRESS } from './constants'
-import {
-  generateTimelineItems,
-  generateActivitySelectOptions,
-  generateActivities,
-  generateSelectPeriodOptions,
-} from './functions'
+import { generateSelectPeriodOptions } from './functions'
 import { currentPage, timelineRef } from '@/router.js'
 import * as keys from './keys'
-
-const activities = ref(generateActivities())
-const timelineItems = ref(generateTimelineItems(activities.value))
-
-const activitySelectOptions = computed(() => generateActivitySelectOptions(activities.value))
-
-function createActivity(activity) {
-  activities.value.push(activity)
-}
-function deleteActivity(activity) {
-  timelineItems.value.forEach((timelineItem) => {
-    if (timelineItem.activityId === activity.id) {
-      timelineItem.activityId = null
-      timelineItem.activitySeconds = 0
-    }
-  })
-  activities.value.splice(activities.value.indexOf(activity), 1)
-}
-
-function setTimelineItemActivity(timelineItem, activityId) {
-  timelineItem.activityId = activityId
-}
-
-function setActivitySecondsToComplete(activity, secondsToComplete) {
-  activity.secondsToComplete = secondsToComplete || 0
-}
-
-function updateTimelineItemActivitySeconds(timelineItem, activitySeconds) {
-  timelineItem.activitySeconds += activitySeconds
-}
+import {
+  activitySelectOptions,
+  createActivity,
+  deleteActivity,
+  setActivitySecondsToComplete,
+} from '@/activities.js'
+import {
+  resetTimelineItemActivities,
+  setTimelineItemActivity,
+  updateTimelineItemActivitySeconds,
+} from '@/timeline-items.js'
 
 provide(keys.updateTimelineItemActivitySecondsKey, updateTimelineItemActivitySeconds)
 provide(keys.setActivitySecondsToCompleteKey, setActivitySecondsToComplete)
 provide(keys.setTimelineItemActivityKey, setTimelineItemActivity)
 provide(keys.createActivityKey, createActivity)
-provide(keys.deleteActivityKey, deleteActivity)
-provide(keys.activitySelectOptionsKey, readonly(activitySelectOptions.value))
+provide(keys.deleteActivityKey, (activity) => {
+  resetTimelineItemActivities(activity)
+  deleteActivity(activity)
+})
+provide(keys.activitySelectOptionsKey, readonly(activitySelectOptions))
 provide(keys.periodSelectOptionsKey, readonly(generateSelectPeriodOptions()))
-provide(keys.timelineItemsKey, readonly(timelineItems.value))
-
 </script>
 
 <template>
   <TheHeader />
+
   <main class="flex flex-col flex-grow">
-    <TheTimeline
-      v-show="currentPage === PAGE_TIMELINE"
-      :timeline-items="timelineItems"
-      :current-page="currentPage"
-      ref="timelineRef"
-    />
-    <TheActivities v-show="currentPage === PAGE_ACTIVITIES" :activities="activities" />
+    <TheTimeline v-show="currentPage === PAGE_TIMELINE" :current-page="currentPage" ref="timelineRef" />
+    <TheActivities v-show="currentPage === PAGE_ACTIVITIES" />
     <TheProgress v-show="currentPage === PAGE_PROGRESS" />
   </main>
 
