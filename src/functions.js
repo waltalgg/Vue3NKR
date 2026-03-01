@@ -15,7 +15,7 @@ export function id(){
 export function generateActivities(){
   return ['Coding', 'Training', 'Reading'].map((name, hours) => ({
     id: id(),
-    name: name,
+    name,
     secondsToComplete: hours * SECONDS_IN_HOUR,
   }))
 }
@@ -59,6 +59,10 @@ export function getTotalActivitySeconds(activity, timelineItems) {
   return timelineItems
     .filter((timelineItem) => timelineItem.activityId === activity.id)
     .reduce((totalSeconds, timelineItem) => Math.round(timelineItem.activitySeconds + totalSeconds), 0)
+}
+
+export function currentHour() {
+  return new Date().getHours()
 }
 
 function generatePeriodSelectOptionsLabel(periodInMinutes){

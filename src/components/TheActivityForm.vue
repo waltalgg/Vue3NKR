@@ -21,7 +21,6 @@ async function submit() {
   window.scrollTo(0, document.body.scrollHeight)
 }
 
-
 </script>
 
 <template>
