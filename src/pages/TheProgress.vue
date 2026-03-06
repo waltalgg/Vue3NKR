@@ -4,16 +4,13 @@ import { trackedActivities } from '@/activities.js'
 </script>
 
 <template>
-
   <ul class="divide-y">
     <ProgressItem
-      v-for="(activity, index) in trackedActivities"
+      v-for="activity in trackedActivities"
       :key="activity.id"
-      :index="index"
-      :activity="activity" />
-
+      :activity="activity"
+    />
   </ul>
-
 </template>
 
 <style scoped></style>
