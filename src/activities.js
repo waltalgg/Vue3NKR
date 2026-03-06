@@ -21,7 +21,7 @@ export function updateActivity(activity, fields) {
 }
 
 export function getActivityProgress(activity) {
-  return (getTotalActivitySeconds(activity) * HUNDRED_PERCENT / activity.secondsToComplete).toFixed(2)
+  return (getTotalActivitySeconds(activity) * HUNDRED_PERCENT / activity.secondsToComplete).toFixed()
 }
 
 function generateActivities(){

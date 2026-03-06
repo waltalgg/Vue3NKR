@@ -29,7 +29,7 @@ const temp = 120
 
 watch(
   () => props.timelineItem.activityId,
-  () => updateTimelineItem(props.timelineItem, { activitySeconds: seconds.value }),
+  () => updateTimelineItem(props.timelineItem, { activitySeconds: seconds.value * temp }),
 )
 function start() {
   isRunning.value = setInterval(() => {

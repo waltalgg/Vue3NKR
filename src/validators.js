@@ -73,7 +73,7 @@ export function isNumber(value)
   return typeof value === 'number'
 }
 
-export function isNotEmptyString(value){
+function isNotEmptyString(value){
   return isString(value) && value.length > 0
 }
 
