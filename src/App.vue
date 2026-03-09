@@ -11,7 +11,6 @@ import { currentPage, routes } from '@/router.js'
     <KeepAlive>
       <component :is="routes[currentPage]" />
     </KeepAlive>
-
   </main>
 
   <TheNav />
